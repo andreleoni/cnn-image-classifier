@@ -101,4 +101,7 @@ ENV/
 .mypy_cache/
 
 # Dataset files
-dataset/**/*
+dataset/models/*
+dataset/single/*
+dataset/test/*
+dataset/train/*
