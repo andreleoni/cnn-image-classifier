@@ -34,6 +34,12 @@ I recommend, test be at least the 25% of the train images.
 
 The test image will send you a first feedback about the accurace in your learn algorithm with your train dataset.
 
+#####
+
+Example train dataset with `cats` and `dogs` images: 
+
+`https://drive.google.com/file/d/1uWTJ4nogWaRukzkwfLOfSRSj9ByvNFeb/view?usp=sharing`
+
 
 ## How to RUN
 
@@ -46,3 +52,5 @@ from cnn import *
 cnn = CNN('my_cnn')
 cnn.train()
 ```
+
+
