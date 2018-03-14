@@ -5,11 +5,14 @@ class CNN():
     self.classifier = Sequential()
     self.cnn_name = name
 
+  def script_dir(self):
+    return os.path.dirname(__file__)
+
   def training_set_path(self):
-    return 'dataset/train'
+    return os.path.join(self.script_dir(), 'dataset/train')
 
   def test_set_path(self):
-    return 'dataset/test'
+    return os.path.join(self.script_dir(), 'dataset/test')
 
   def single(self, prediction_url):
     test_image = image.load_img(prediction_url, target_size = (128, 128))
@@ -84,7 +87,7 @@ class CNN():
     self.save_model()
 
   def save_model(self):
-    model_backup_path = 'dataset/models/' + self.cnn_name + '.h5'
+    model_backup_path = os.path.join(script_dir, 'dataset/models/' + self.cnn_name + '.h5')
     self.classifier.save(model_backup_path)
 
     save_msg = "Model: " + self.cnn_name + " \n Saved to: " + model_backup_path
@@ -92,7 +95,7 @@ class CNN():
     self.register_log(save_msg)
 
   def register_log(self, message):
-    log_path = 'train_log.log'
+    log_path = os.path.join(self.script_dir(), 'train_log.log')
     log_file = open(log_path, 'w+')
     log_file.write('\n')
     log_file.write('######### ' + self.cnn_name + ' #######')
