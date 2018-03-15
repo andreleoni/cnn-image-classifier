@@ -97,7 +97,7 @@ class CNNSimple():
   def revert_key_to_value(self, hash):
     return { v: k for k, v in hash.items() }
 
-  def load_model(self, name)
+  def load_model(self, name):
     json_file = open(name + '.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
@@ -107,5 +107,5 @@ class CNNSimple():
     self.register_log("Loaded model: " + name)
     self.evaluate_model()
 
-  def evaluate_model(self)
+  def evaluate_model(self):
     self.register_log("%s: %.2f%%" % (self.classifier.metrics_names[1], self.classifier.evaluate()[1]*100))
