@@ -70,7 +70,7 @@ class CNN():
                                                 class_mode = 'binary')
 
     self.class_indices = training_set.class_indices
-    self.register_log("The model class indices are:", self.class_indices)
+    self.register_log("The model class indices are: " + self.class_indices)
 
     self.classifier.fit_generator(training_set,
                                   steps_per_epoch = 8000,
