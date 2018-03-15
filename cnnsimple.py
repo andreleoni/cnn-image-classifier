@@ -25,22 +25,21 @@ class CNNSimple():
     self.register_log("Single result: " + str(self.revert_key_to_value(self.class_indices)[result_key]))
 
   def learn_layers(self):
-    # Step 1 - Convolution
-    self.classifier.add(Conv2D(32, (3, 3), input_shape = (64, 64 , 3), activation = 'relu'))
+      # Step 1 - Convolution
+      self.classifier.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'))
 
-    # Step 2 - Pooling
-    self.classifier.add(MaxPooling2D(pool_size = (2, 2)))
+      # Step 2 - Pooling
+      self.classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
-    # Step 3 - Flattening
-    self.classifier.add(Flatten())
+      # Step 3 - Flattening
+      self.classifier.add(Flatten())
 
-    # Step 4 - Full connection
-    self.classifier.add(Dense(units = 64, activation = 'relu'))
-    self.classifier.add(Dropout(0.5))
-    self.classifier.add(Dense(units = 1, activation = 'sigmoid'))
+      # Step 4 - Full connection
+      self.classifier.add(Dense(units = 128, activation = 'relu'))
+      self.classifier.add(Dense(units = 1, activation = 'sigmoid'))
 
-    # Compiling the CNN
-    self.classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+      # Compiling the CNN
+      self.classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
   def fit_cnn_to_images(self):
     # Part 2 - Fitting the CNN to the images
