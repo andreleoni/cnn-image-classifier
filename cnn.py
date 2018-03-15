@@ -21,9 +21,8 @@ class CNN():
     result = self.classifier.predict(test_image)
 
     result_key = result[0][0]
-    single_msg = "Single result: " + self.revert_key_to_value(self.class_indices)[result_key]
-    print(single_msg)
-    self.register_log(single_msg)
+
+    self.register_log("Single result: " + self.revert_key_to_value(self.class_indices)[result_key])
 
   def learn_layers(self):
     # Step 1 - Convolution
@@ -71,9 +70,7 @@ class CNN():
                                                 class_mode = 'binary')
 
     self.class_indices = training_set.class_indices
-    class_indices_msg = "The model class indices are:", self.class_indices
-    print(class_indices_msg)
-    self.register_log(class_indices_msg)
+    self.register_log("The model class indices are:", self.class_indices)
 
     self.classifier.fit_generator(training_set,
                                   steps_per_epoch = 8000,
@@ -88,13 +85,12 @@ class CNN():
 
   def save_model(self):
     model_backup_path = os.path.join(script_dir, 'dataset/models/' + self.cnn_name + '.h5')
-    self.classifier.save(model_backup_path)
-
-    save_msg = "Model: " + self.cnn_name + " \n Saved to: " + model_backup_path
-    print(save_msg)
-    self.register_log(save_msg)
+    self.classifier.save_weights(model_backup_path)
+    self.register_log("Model: " + self.cnn_name + " \n Saved to: " + model_backup_path)
 
   def register_log(self, message):
+    print(message)
+
     log_path = os.path.join(self.script_dir(), 'train_log.log')
     log_file = open(log_path, 'w+')
     log_file.write('\n')
@@ -108,3 +104,16 @@ class CNN():
 
   def revert_key_to_value(self, hash):
     return { v: k for k, v in hash.items() }
+
+  def load_model(self, name)
+    json_file = open(name + '.json', 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+
+    self.classifier = model_from_json(loaded_model_json)
+    self.classifier.load_weights(name + '.h5')
+    self.register_log("Loaded model: " + name)
+    self.evaluate_model()
+
+  def evaluate_model(self)
+    self.register_log("%s: %.2f%%" % (self.classifier.metrics_names[1], self.classifier.evaluate()[1]*100))
