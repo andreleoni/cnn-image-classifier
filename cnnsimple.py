@@ -79,7 +79,7 @@ class CNNSimple():
     self.classifier.save_weights(model_backup_path)
     self.register_log("Model: " + self.cnn_name + " \n Saved to: " + model_backup_path)
 
-   def register_log(self, message):
+  def register_log(self, message):
     print(message)
 
     log_path = os.path.join(self.script_dir(), 'train_log.log')
