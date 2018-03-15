@@ -22,7 +22,7 @@ class CNNSimple():
 
     result_key = result[0][0]
 
-    self.register_log("Single result: " + self.revert_key_to_value(self.class_indices)[result_key])
+    self.register_log("Single result: " + str(self.revert_key_to_value(self.class_indices)[result_key]))
 
   def learn_layers(self):
     # Step 1 - Convolution
@@ -62,7 +62,7 @@ class CNNSimple():
                                                 class_mode = 'binary')
 
     self.class_indices = training_set.class_indices
-    self.register_log("The model class indices are:" + self.class_indices)
+    self.register_log("The model class indices are:" + str(self.class_indices))
 
     self.classifier.fit_generator(training_set,
                                   steps_per_epoch = 8000,
