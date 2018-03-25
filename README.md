@@ -52,8 +52,3 @@ from cnn import *
 cnn = CNN('my_cnn')
 cnn.train()
 ```
-
-
-## Other image that run
-
-docker run -ti --rm -p 8888:8888 -v "$PWD":/home/jovyan/work andreleoni/jupyter-tensorflow
