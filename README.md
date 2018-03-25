@@ -36,7 +36,7 @@ The test image will send you a first feedback about the accurace in your learn a
 
 #####
 
-Example train dataset with `cats` and `dogs` images: 
+Example train dataset with `cats` and `dogs` images:
 
 `https://drive.google.com/file/d/1uWTJ4nogWaRukzkwfLOfSRSj9ByvNFeb/view?usp=sharing`
 
@@ -54,3 +54,6 @@ cnn.train()
 ```
 
 
+## Other image that run
+
+docker run -ti --rm -p 8888:8888 -v "$PWD":/home/jovyan/work andreleoni/jupyter-tensorflow
