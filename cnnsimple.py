@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 from import_modules import *
 
 class CNNSimple():
@@ -15,7 +18,7 @@ class CNNSimple():
     return os.path.join(self.script_dir(), 'dataset/test')
 
   def single(self, prediction_url):
-    test_image = image.load_img(prediction_url, target_size = (64, 64))
+    test_image = image.load_img("dataset/single/cat_or_dog_2.jpg", target_size = (64, 64))
     test_image = image.img_to_array(test_image)
     test_image = np.expand_dims(test_image, axis = 0)
     result = self.classifier.predict(test_image)
@@ -64,8 +67,8 @@ class CNNSimple():
     self.register_log("The model class indices are:" + str(self.class_indices))
 
     self.classifier.fit_generator(training_set,
-                                  steps_per_epoch = 8000,
-                                  epochs = 25,
+                                  steps_per_epoch = 1,
+                                  epochs = 1,
                                   validation_data = test_set,
                                   validation_steps = 2000)
 
@@ -75,7 +78,21 @@ class CNNSimple():
     self.save_model()
 
   def save_model(self):
-    model_backup_path = os.path.join(script_dir, 'dataset/models/' + self.cnn_name + '.h5')
+    self.save_class_indices()
+    self.save_as_json()
+    self.save_as_h5()
+
+  def save_class_indices(self):
+    with open('dataset/models/' + self.cnn_name + '_class_indices.json', "w") as json_file:
+      json_file.write(json.dumps(self.class_indices, ensure_ascii=False))
+
+  def save_as_json(self):
+    model_json = self.classifier.to_json()
+    with open('dataset/models/' + self.cnn_name + '.json', "w") as json_file:
+      json_file.write(model_json)
+
+  def save_as_h5(self):
+    model_backup_path = os.path.join(self.script_dir(), 'dataset/models/' + self.cnn_name + '.h5')
     self.classifier.save_weights(model_backup_path)
     self.register_log("Model: " + self.cnn_name + " \n Saved to: " + model_backup_path)
 
@@ -84,22 +101,23 @@ class CNNSimple():
 
     log_path = os.path.join(self.script_dir(), 'train_log.log')
     log_file = open(log_path, 'w+')
-    log_file.write('#> ' + self.cnn_name + ' : ' + str(message))
+    log_file.write('#> ' + strftime("%Y-%m-%d %H:%M:%S", gmtime()) + '  ' + self.cnn_name + ' : ' + str(message))
     log_file.write('\n')
     log_file.close()
 
   def revert_key_to_value(self, hash):
     return { v: k for k, v in hash.items() }
 
-  def load_model(self, name):
-    json_file = open(name + '.json', 'r')
-    loaded_model_json = json_file.read()
-    json_file.close()
+  def load_model(self):
+    self.load_class_indices()
+    self.learn_layers()
+    self.classifier.load_weights('dataset/models/' + self.cnn_name + '.h5')
+    self.register_log("Loaded model: " + self.cnn_name)
 
-    self.classifier = model_from_json(loaded_model_json)
-    self.classifier.load_weights(name + '.h5')
-    self.register_log("Loaded model: " + name)
-    self.evaluate_model()
+  def load_class_indices(self):
+    json_file = open('dataset/models/' + self.cnn_name + '_class_indices.json', 'r')
+    self.class_indices = ast.literal_eval(json_file.read())
+    json_file.close()
 
   def evaluate_model(self):
     self.register_log("%s: %.2f%%" % (self.classifier.metrics_names[1], self.classifier.evaluate()[1]*100))
