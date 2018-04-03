@@ -67,8 +67,8 @@ class CNNSimple():
     self.register_log("The model class indices are:" + str(self.class_indices))
 
     self.classifier.fit_generator(training_set,
-                                  steps_per_epoch = 1,
-                                  epochs = 1,
+                                  steps_per_epoch = 8000,
+                                  epochs = 25,
                                   validation_data = test_set,
                                   validation_steps = 2000)
 
