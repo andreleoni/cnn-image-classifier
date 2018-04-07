@@ -18,7 +18,7 @@ class CNN():
     return os.path.join(self.script_dir(), 'dataset/test')
 
   def single(self, prediction_url):
-    test_image = image.load_img(prediction_url, target_size = (64, 64))
+    test_image = image.load_img(prediction_url, target_size = (128, 128))
     test_image = image.img_to_array(test_image)
     test_image = np.expand_dims(test_image, axis = 0)
     result = self.classifier.predict(test_image)
@@ -63,12 +63,12 @@ class CNN():
     test_datagen = ImageDataGenerator(rescale = 1./255)
 
     training_set = train_datagen.flow_from_directory(self.training_set_path(),
-                                                    target_size = (64, 64),
+                                                    target_size = (128, 128),
                                                     batch_size = 32,
                                                     class_mode = 'binary')
 
     test_set = test_datagen.flow_from_directory(self.test_set_path(),
-                                                target_size = (64, 64),
+                                                target_size = (128, 128),
                                                 batch_size = 32,
                                                 class_mode = 'binary')
 
