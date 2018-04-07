@@ -3,7 +3,7 @@
 
 from import_modules import *
 
-class CNNSimple():
+class CNN():
   def __init__(self, name):
     self.classifier = Sequential()
     self.cnn_name = name
