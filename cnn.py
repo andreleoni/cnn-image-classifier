@@ -109,7 +109,7 @@ class CNN():
     print(message)
 
     log_path = os.path.join(self.script_dir(), 'train_log.log')
-    log_file = open(log_path, 'w+')
+    log_file = open(log_path, 'a')
     log_file.write('#> ' + strftime("%Y-%m-%d %H:%M:%S", gmtime()) + '  ' + self.cnn_name + ' : ' + str(message))
     log_file.write('\n')
     log_file.close()

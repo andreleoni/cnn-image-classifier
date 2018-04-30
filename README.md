@@ -48,7 +48,7 @@ Example train dataset with `cats` and `dogs` images:
 
 On python, import CNN file, instance, and execute than
 ```
-from cnn import *
+from main import *
 cnn = CNN('my_cnn')
 cnn.train()
 ```
