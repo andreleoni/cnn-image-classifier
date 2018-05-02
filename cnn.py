@@ -77,12 +77,12 @@ class CNN():
     self.register_log("The model class indices are:" + str(self.class_indices))
 
     self.classifier.fit_generator(training_set,
-                                steps_per_epoch = 10,
+                                steps_per_epoch = 8000,
                                 epochs = 2,
                                 validation_data = test_set,
-                                validation_steps = 2000)
+                                validation_steps = 200)
 
-    self.score = self.classifier.evaluate_generator(test_set, 2000)
+    self.score = self.classifier.evaluate_generator(test_set, 200)
 
 
   def train(self):
