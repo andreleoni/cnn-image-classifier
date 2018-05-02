@@ -7,6 +7,7 @@ class CNN():
   def __init__(self, name):
     self.classifier = Sequential()
     self.cnn_name = name
+    self.register_log("Starts training of: " + name)
 
   def script_dir(self):
     return os.path.dirname(__file__)
@@ -51,7 +52,7 @@ class CNN():
     self.classifier.add(Dense(units = 1, activation = 'sigmoid'))
 
     # Compiling the CNN
-    self.classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+    self.classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy', 'categorical_crossentropy'])
 
   def fit_cnn_to_images(self):
     # Part 2 - Fitting the CNN to the images
@@ -76,10 +77,13 @@ class CNN():
     self.register_log("The model class indices are:" + str(self.class_indices))
 
     self.classifier.fit_generator(training_set,
-                                  steps_per_epoch = 8000,
-                                  epochs = 2,
-                                  validation_data = test_set,
-                                  validation_steps = 2000)
+                                steps_per_epoch = 10,
+                                epochs = 2,
+                                validation_data = test_set,
+                                validation_steps = 2000)
+
+    self.score = self.classifier.evaluate_generator(test_set, 2000)
+
 
   def train(self):
     self.learn_layers()
@@ -89,7 +93,11 @@ class CNN():
   def save_model(self):
     self.save_class_indices()
     self.save_as_json()
+    self.save_accuracy()
     self.save_as_h5()
+
+  def save_accuracy(self):
+    self.register_log("Accuracy: " + str(self.score[1]) + "%")
 
   def save_class_indices(self):
     with open('dataset/models/' + self.cnn_name + '_class_indices.json', "w") as json_file:
@@ -103,7 +111,7 @@ class CNN():
   def save_as_h5(self):
     model_backup_path = os.path.join(self.script_dir(), 'dataset/models/' + self.cnn_name + '.h5')
     self.classifier.save_weights(model_backup_path)
-    self.register_log("Model: " + self.cnn_name + " \n Saved to: " + model_backup_path)
+    self.register_log("Saved to: " + model_backup_path)
 
   def register_log(self, message):
     print(message)
